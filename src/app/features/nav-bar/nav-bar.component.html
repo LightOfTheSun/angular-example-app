@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg mb-3 sticky-top p-3">
+  <div class="container-fluid">
+    <a [routerLink]="'/'" class="navbar-brand">
+      <img
+        alt="logo"
+        class="img-fluid"
+        height="50"
+        ngSrc="/assets/logo.png"
+        width="50"
+      />
+    </a>
+    <button (click)="openOffCanvas(offCanvasNavbar)"
+            class="navbar-toggler py-2 text-center"
+            type="button"
+    >
+      <i class="bi bi-list fs-3"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @for (link of links; track link.title) {
+          <li class="nav-item">
+            <a class="nav-link"
+               [routerLinkActive]="'active'"
+               [routerLink]="link.path"
+               [routerLinkActiveOptions]="{exact: true}"
+            >{{ link.title }}</a>
+          </li>
+        }
+      </ul>
+
+      <ng-container [ngTemplateOutlet]="switchTheme" />
+      <button (click)="openAuth()" class="single-icon-button ms-3 pointer">
+        <i [class.bi-person-check]="isLoggedIn()" [class.bi-person]="!isLoggedIn()" class="bi"></i>
+      </button>
+      @if (isLoggedIn()) {
+        <button class="single-icon-button ms-3" (click)="logout()">
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      }
+    </div>
+  </div>
+</nav>
+
+
+<!-- off-canvas navbar for mobiles -->
+<ng-template #offCanvasNavbar>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"><a class="navbar-brand">EXAMPLE</a></h5>
+    <button
+      (click)="offCanvasService.dismiss()"
+      aria-label="Close"
+      class="btn-close text-danger"
+      data-bs-dismiss="offcanvas"
+      type="button"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav">
+      @for (link of links; track link.title) {
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLinkActive]="'active'"
+            [routerLink]="link.path"
+            [routerLinkActiveOptions]="{exact: true}"
+            (click)="offCanvasService.dismiss()"
+          >{{ link.title }}</a>
+        </li>
+      }
+
+      <li class="nav-link mt-5 align-self-end">
+        <ng-container [ngTemplateOutlet]="switchTheme" />
+      </li>
+      <li class="nav-item align-self-end">
+        <button (click)="openAuth(); offCanvasService.dismiss()" class="single-icon-button ms-3">
+          <i [class.bi-person-check]="isLoggedIn()" [class.bi-person]="isLoggedIn()" class="bi"></i>
+        </button>
+        @if (isLoggedIn()) {
+          <button class="single-icon-button ms-3" (click)="logout()">
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        }
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #switchTheme>
+  <div [class]="theme()">
+    <button (click)="toggleTheme()" class="switch-theme">
+      <i class="bi bi-moon text-start"></i>
+      <span class="switcher-toggler"></span>
+      <i class="bi bi-sun text-end"></i>
+    </button>
+  </div>
+</ng-template>
+

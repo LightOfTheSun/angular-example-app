@@ -1,0 +1,15 @@
+<div class="input-group">
+  <strong class="input-group-text">Rows per page: </strong>
+  <input
+    #rowsPerPage
+    (blur)="updateMaxRows()"
+    (keydown.enter)="rowsPerPage.blur()"
+    (keydown.escape)="maxRowsPerPage.set(maxRowsPerPageOld()); rowsPerPage.blur()"
+    [(ngModel)]="maxRowsPerPage"
+    [min]="1"
+    class="form-control text-center"
+    type="number"
+  >
+</div>
+
+

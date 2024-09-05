@@ -1,0 +1,27 @@
+@for (alert of alerts(); track alert.id) {
+  <ngb-toast
+    [class]="alert.classname + ' mt-2 pointer'"
+    [autohide]="alert.autohide || false"
+    [delay]="alert.delay || 0"
+    (hidden)="alertsService.remove(alert)"
+    (click)="alertsService.remove(alert)"
+  >
+    <ng-template ngbToastHeader>
+      <div class="me-auto">
+        @if (alert.type === 'error') {
+          <strong>
+            <i class="bi bi-exclamation-triangle"></i>
+            Something went wrong
+          </strong>
+        } @else if (alert.type === 'success') {
+          <strong>
+            <i class="bi bi-check-circle"></i>
+            You've done it!
+          </strong>
+        }
+      </div>
+    </ng-template>
+
+    {{ alert.msg }}
+  </ngb-toast>
+}

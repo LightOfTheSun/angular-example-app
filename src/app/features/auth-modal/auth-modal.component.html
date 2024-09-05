@@ -1,0 +1,20 @@
+<div class="box fullscreen-sm">
+  <div class="modal-header">
+    <h4>{{ title().toUpperCase() }}</h4>
+
+    <button (click)="modalService.close()" class="btn-close" type="button"></button>
+  </div>
+  <div class="modal-body">
+    @if (isSignUp()) {
+      <app-signup (signup)="signUp($event)" />
+    } @else {
+      <app-login (login)="logIn($event)" />
+    }
+  </div>
+
+  <div class="modal-footer">
+    <button (click)="switch()" class="btn-outline-success rounded" type="button">
+      {{ isSignUp() ? 'Switch to LOGIN' : 'Switch to SIGN UP' }}
+    </button>
+  </div>
+</div>

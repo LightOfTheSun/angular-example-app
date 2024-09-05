@@ -1,0 +1,19 @@
+<div [class]="inputClass()" class="input-group" role="group">
+  <ng-content></ng-content>
+  @if (showInput()) {
+    <input
+      #inputField
+      (blur)="selectValue(value())"
+      (keydown.enter)="inputField.blur()"
+      (keydown.escape)="value.set(lastValue()); inputField.blur()"
+      [(ngModel)]="value"
+      [disabled]="disabled()"
+      [placeholder]="placeholder()"
+      [style.background-color]="inputField.value ? fillColor() : 'transparent'"
+      [type]="typeOfInput()"
+      class="form-control"
+    >
+  }
+</div>
+
+

@@ -1,0 +1,148 @@
+@import "../../../variables";
+
+
+nav {
+  width: 100%;
+  background-color: var(--color-light);
+  position: sticky;
+  left: 0;
+  top: 0;
+}
+
+
+.light-theme .switch-theme {
+  &:hover {
+    box-shadow: var(--color-primary) -2px 0 5px;
+  }
+
+  .switcher-toggler {
+    left: 37%;
+  }
+
+  .bi-moon {
+    animation: none !important;
+  }
+
+  .bi-sun {
+    animation: sun-spin 10s linear infinite;
+  }
+}
+
+.nav-link {
+  color: var(--color-white);
+  text-transform: uppercase;
+
+  &.active {
+    color: var(--color-primary) !important;
+    font-weight: bolder;
+  }
+
+  &:hover {
+    color: var(--color-primary) !important;
+    text-shadow: var(--color-primary) 0 10px 15px;
+  }
+}
+
+.navbar-brand {
+  color: var(--color-white);
+  text-transform: uppercase;
+  font-weight: bold;
+
+  &:hover {
+    color: var(--color-primary) !important;
+    text-shadow: var(--color-primary) 0 20px 7px;
+    transform: scale(1.05);
+  }
+}
+
+.switch-theme {
+  padding: 7px 12px;
+  min-width: 60px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 30px;
+  transform: scale(1.00);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: var(--color-primary) 2px 0 5px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bi-moon {
+    color: var(--color-warning);
+    text-align: right;
+    position: relative;
+    left: 0;
+    animation: moon-swing 5s linear infinite;
+  }
+
+  .bi-sun {
+    color: var(--color-warning);
+    text-align: right;
+    position: relative;
+    right: 0;
+  }
+
+  .switcher-toggler {
+    background-color: var(--color-warning);
+    mix-blend-mode: screen;
+    width: 25px;
+    height: 25px;
+    z-index: 1;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    left: -32%;
+    top: -1%;
+    transition: all 0.4s ease;
+
+    @media (max-width: $breakpoint-md) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  @media (max-width: $breakpoint-md) {
+    font-size: 1rem;
+  }
+}
+
+.float-end {
+  @media (max-width: $breakpoint-md) {
+    align-self: end;
+  }
+}
+
+@keyframes sun-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+    transition: all 0.4s ease;
+  }
+}
+
+@keyframes moon-swing {
+  0% {
+    transform: rotate(-30deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  100% {
+    transform: rotate(-30deg);
+  }
+}
+
+.navbar-toggler {
+  color: var(--color-white);
+}
+

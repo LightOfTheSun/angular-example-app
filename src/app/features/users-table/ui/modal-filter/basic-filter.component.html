@@ -1,0 +1,195 @@
+<div class="modal-header">
+  <h4 class="modal-title">({{ data().col }})</h4>
+  <button (click)="activeModal.dismiss()" aria-label="Close" class="btn-close" type="button"></button>
+</div>
+
+
+<div class="modal-body">
+
+  <!-- SORTING -->
+  <div>
+    <h5 class="h5">Sorting</h5>
+
+    <div *ngIf="data().filterType === 'string' || data().filterType === 'mixed'">
+
+      <i
+        (click)="selectSorting(data().sorting ? undefined : true)"
+        [style.color]="data().sorting && '#4FAD18FF'"
+        class="bi bi-sort-alpha-down pointer"
+        style="font-size: 40px"
+      ></i>
+
+      <i
+        (click)="selectSorting(data().sorting === false ? undefined : false)"
+        [style.color]="data().sorting === false && '#4FAD18FF'"
+        class="bi bi-sort-alpha-up pointer"
+        style="font-size: 40px"
+      ></i>
+
+    </div>
+
+    <div *ngIf="data().filterType==='number'">
+
+      <i
+        (click)="selectSorting(data().sorting ? undefined : true)"
+        [style.color]="data().sorting && '#4FAD18FF'"
+        class="bi bi-sort-numeric-down pointer"
+        style="font-size: 40px"
+      ></i>
+
+      <i
+        (click)="selectSorting(data().sorting === false ? undefined : false)"
+        [style.color]="data().sorting === false && '#4FAD18FF'"
+        class="bi bi-sort-numeric-up pointer"
+        style="font-size: 40px"
+      ></i>
+
+    </div>
+
+  </div>
+
+  <!-- TEXT FILTERS -->
+  <div *ngIf="data().filterType === 'string' || data().filterType === 'mixed'">
+    <h5 class="h5">Text filters</h5>
+    <app-switch-checkbox
+      (valueChange)="updateFilter({ not: $event })"
+      [id]="'notTextSwitch'"
+      [value]="data().filter.not"
+    >not
+    </app-switch-checkbox>
+
+    <!--  Empty value  -->
+    <app-switch-checkbox
+      (valueChange)="updateFilter({ empty: $event }); selectFilter(filterTypes.empty, $event)"
+      [id]="'emptyTextSwitch'"
+      [value]="data().filter.empty"
+    >empty values
+    </app-switch-checkbox>
+
+    <ng-container *ngIf="!data().filter.empty">
+      <!--  Starts with  -->
+      <app-input
+        (valueChange)="updateFilter({ startsWith: data().filter.startsWith = $event ? $event : undefined }); selectFilter(filterTypes.startsWith,$event)"
+        [typeOfInput]="'text'"
+        [value]="data().filter.startsWith || ''"
+        class="mb-2"
+      >
+        <span class="input-group-text">{{ data().filter.not ? 'not' : '' }} {{ filterTypes.startsWith }}</span>
+      </app-input>
+
+      <!--  Ends with  -->
+      <app-input
+        (valueChange)="updateFilter({ endsWith: data().filter.endsWith = $event ? $event : undefined }); selectFilter(filterTypes.endsWith,$event)"
+        [typeOfInput]="'text'"
+        [value]="data().filter.endsWith || ''"
+        class="mb-2"
+      >
+        <span class="input-group-text">{{ data().filter.not ? 'not' : '' }} {{ filterTypes.endsWith }}</span>
+      </app-input>
+
+      <!--  Includes  -->
+      <app-input
+        (valueChange)="updateFilter({ includes: data().filter.includes = $event ? $event : undefined }); selectFilter(filterTypes.includes,$event)"
+        [typeOfInput]="'text'"
+        [value]="data().filter.includes || ''"
+        class="mb-2"
+      >
+        <span class="input-group-text">{{ data().filter.not ? 'not' : '' }} {{ filterTypes.includes }}</span>
+      </app-input>
+
+      <!--  Equals  -->
+      <app-input
+        (valueChange)="updateFilter({ eq: data().filter.eq = $event ? $event : undefined }); selectFilter(filterTypes.eq,$event)"
+        [typeOfInput]="'text'"
+        [value]="data().filter.eq?.toString() || ''"
+      >
+        <span class="input-group-text">{{ data().filter.not ? 'not' : '' }} {{ filterTypes.eq }}</span>
+      </app-input>
+    </ng-container>
+
+  </div>
+
+  <!-- NUMBER FILTERS -->
+  <div
+    *ngIf="data().filterType==='number' || (data().filterType === 'mixed' && !data().filter.empty)">
+    <h5 class="h5">Числові фільтри</h5>
+    <app-switch-checkbox
+      (valueChange)="updateFilter({ not: $event })"
+      *ngIf="data().filterType !== 'mixed'"
+      [id]="'notNumberSwitch'"
+      [value]="data().filter.not"
+    >not
+    </app-switch-checkbox>
+
+    <!--  Empty value  -->
+    <app-switch-checkbox
+      (valueChange)="updateFilter({ empty: $event }); selectFilter(filterTypes.empty, $event)"
+      *ngIf="data().filterType !== 'mixed'"
+      [id]="'emptyNumberSwitch'"
+      [value]="data().filter.empty"
+    >empty value
+    </app-switch-checkbox>
+
+    <ng-container *ngIf="!data().filter.empty">
+      <!--  EQUALS  -->
+      <app-input
+        (valueChangedNumber)="updateFilter({ eq: data().filter.eq = $event ? $event : undefined }); selectFilter(filterTypes.eq,$event)"
+        *ngIf="data().filterType !== 'mixed'"
+        [typeOfInput]="'number'"
+        [value]="data().filter.eq?.toString() || ''"
+      >
+        <span class="input-group-text">{{ data().filter.not ? 'not' : '' }} {{ filterTypes.eq }}</span>
+      </app-input>
+
+      <!--  LESS THAN  -->
+      <app-input
+        (valueChangedNumber)="updateFilter({ less: data().filter.less = $event ? $event : undefined }); selectFilter(filterTypes.less,$event)"
+        [typeOfInput]="'number'"
+        [value]="data().filter.less?.toString() || ''"
+      >
+        <span class="input-group-text">{{ filterTypes.less }}</span>
+      </app-input>
+
+      <!--  MORE THAN  -->
+      <app-input
+        (valueChangedNumber)="updateFilter({ greater: data().filter.greater = $event ? $event : undefined }); selectFilter(filterTypes.greater, $event)"
+        [typeOfInput]="'number'"
+        [value]="data().filter.greater?.toString() || ''"
+      >
+        <span class="input-group-text">{{ filterTypes.greater }}</span>
+      </app-input>
+
+      <!--  LESS OR EQUAL  -->
+      <app-input
+        (valueChangedNumber)="updateFilter({ le: data().filter.le = $event ? $event : undefined }); selectFilter(filterTypes.le,$event)"
+        [typeOfInput]="'number'"
+        [value]="data().filter.le?.toString() || ''"
+      >
+        <span class="input-group-text">{{ filterTypes.le }}</span>
+      </app-input>
+
+      <!--  MORE OR EQUAL  -->
+      <app-input
+        (valueChangedNumber)="updateFilter({ ge: data().filter.ge = $event ? $event : undefined }); selectFilter(filterTypes.ge,$event)"
+        [typeOfInput]="'number'"
+        [value]="data().filter.ge?.toString() || ''"
+      >
+        <span class="input-group-text">{{ filterTypes.ge }}</span>
+      </app-input>
+
+    </ng-container>
+
+  </div>
+
+</div>
+
+
+<div class="modal-footer">
+  <button
+    (click)="activeModal.close(dataToSendBack())"
+    class="btn btn-outline-primary"
+    type="button"
+  >Save
+  </button>
+</div>
+

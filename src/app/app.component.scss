@@ -1,0 +1,25 @@
+
+.teleport {
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 50%;
+  border: var(--color-primary) 1px solid;
+
+  position: fixed;
+  bottom: 70px;
+  left: 40px;
+}
+
+.toast-display {
+  position: fixed;
+  bottom: 70px;
+  right: 40px;
+  z-index: 9999;
+  max-height: 40vh;
+  overflow-y: auto;
+}
